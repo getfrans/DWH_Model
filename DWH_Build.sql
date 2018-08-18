@@ -1,29 +1,37 @@
+-- #### Dropping Existing Database If its available in the foodengine_dwh name
+-- #### This script to be used for new customer environmental set-up 
+-- #### By Running this script, we will lose all existing data
+
+
+DROP DATABASE IF EXISTS foodengine_dwh ;
 CREATE DATABASE IF NOT EXISTS foodengine_dwh;
+
+USE foodengine_dwh;
 
 DROP TABLE IF EXISTS fact_orderdetail;
 CREATE TABLE IF NOT EXISTS fact_orderdetail(
-Process_Id INT(11)	NOT NULL AUTO_INCREMENT 
+ProcessId INT(11)	NOT NULL AUTO_INCREMENT 
 ,ProcessDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP 
-,Branch_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,Order_Id BIGINT(11) NOT NULL	DEFAULT 0
-,Customer_Id INT(11)	NOT NULL 	DEFAULT 	0
-,OrderType_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,Onlineref_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,Floor_Id	INT(11) NOT NULL DEFAULT 0
-,Table_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,Department_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,Menu_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,Captain_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,Waiter_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,OrderStatus_Id INT(11)	NOT NULL 	DEFAULT 	0
-,DeliveryStatus_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,DiscBy_Id SMALLINT(2) NOT NULL DEFAULT 0
-,ComplimentaryStatus_Id SMALLINT(1) DEFAULT 0
-,SplitType_Id  SMALLINT(1) DEFAULT 0
-,Paymode_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,CardType_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,BillTime_Id	INT(11)	NOT NULL 	DEFAULT 	0
-,Createdate_Id	INT(11)	NOT NULL 	DEFAULT 	0
+,BranchId	INT(11)	NOT NULL 	DEFAULT 	0  COMMENT 'Id of dim_branch table'
+,OrderId BIGINT(11) NOT NULL	DEFAULT 0 COMMENT 'source table order transaction id'
+,OrderSummaryId BIGINT(11) NOT NULL	DEFAULT 0 COMMENT 'source table order summary transaction id'
+,CustomerId INT(11)	NOT NULL 	DEFAULT 	0  COMMENT 'Id of dim_customer table'
+,OrderTypeId	INT(11)	NOT NULL 	DEFAULT 	0  COMMENT 'Id of dDim_ordertype table'
+,OnlinerefId	INT(11)	NOT NULL 	DEFAULT 	0  COMMENT 'Id of dim_onlinereferal table'
+,FloorId	INT(11) NOT NULL DEFAULT 0  COMMENT 'Id of dim_tablefloor table'
+,TableId	INT(11)	NOT NULL 	DEFAULT 	0 COMMENT 'Id of dim_tablefloor table'
+,DepartmentId	INT(11)	NOT NULL 	DEFAULT 	0   COMMENT 'Id of dim_department table'
+,MenuId	INT(11)	NOT NULL 	DEFAULT 	0      COMMENT 'Id of dim_menuitem table'
+,CaptainId	INT(11)	NOT NULL 	DEFAULT 	0     COMMENT 'Id of dim_waiter table'
+,WaiterId	INT(11)	NOT NULL 	DEFAULT 	0		COMMENT 'Id of dim_waiter table'
+,OrderStatusId INT(11)	NOT NULL 	DEFAULT 	0 COMMENT 'Id of dim_orderstatus table' 
+,DiscountTypeId SMALLINT(2) NOT NULL DEFAULT 0 COMMENT 'Id of dim_discounttype table'
+,ComplimentaryStatusId SMALLINT(1) DEFAULT 0 COMMENT 'Id of dim_complimentary table'
+,SplitTypeId  SMALLINT(1) DEFAULT 0 COMMENT 'Id of dim_splittype table'
+,PaymodeId	INT(11)	NOT NULL 	DEFAULT 	0  COMMENT 'Id of dim_paymode table' 
+,CardTypeId	INT(11)	NOT NULL 	DEFAULT 	0 COMMENT 'Id of dim_cardtype table'
+,BillTimeId	INT(11)	NOT NULL 	DEFAULT 	0
+,CreateDateId	INT(11)	NOT NULL 	DEFAULT 	0
 ,CreateDate	TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00'		
 ,NoOfPpl INT(11) NOT NULL DEFAULT 0
 ,Itemprice DECIMAL(10,2) DEFAULT '0.00'
@@ -36,70 +44,67 @@ Process_Id INT(11)	NOT NULL AUTO_INCREMENT
 ,ParcelCharge DECIMAL(10,2) DEFAULT '0.00'
 ,TaxAmount DECIMAL(10,2) DEFAULT '0.00'
 ,SalesAmount DECIMAL(10,2) DEFAULT '0.00'
-,PRIMARY KEY (Process_Id)
-,UNIQUE KEY uniq_order (Order_Id,Branch_Id)
-,KEY idx_Branch_Id (Branch_Id)
-,KEY idx_Order_Id (Order_Id)
-,KEY idx_Customer_Id (Customer_Id)
-,KEY idx_OrderType_Id (OrderType_Id)
-,KEY idx_Onlineref_Id (Onlineref_Id)
-,KEY idx_Floor_Id (Floor_Id)
-,KEY idx_Table_Id (Table_Id)
-,KEY idx_Department_Id (Department_Id)
-,KEY idx_Menu_Id (Menu_Id)
-,KEY idx_Captain_Id (Captain_Id)
-,KEY idx_Waiter_Id (Waiter_Id)
-,KEY idx_OrderStatus_Id (OrderStatus_Id)
-,KEY idx_DeliveryStatus_Id (DeliveryStatus_Id)
-,KEY idx_DiscBy_Id (DiscBy_Id)
-,KEY idx_ComplimentaryStatus_Id (ComplimentaryStatus_Id)
-,KEY idx_SplitType_Id (SplitType_Id)
-,KEY idx_Paymode_Id (Paymode_Id)
-,KEY idx_CardType_Id (CardType_Id)
-,KEY idx_BillTime_Id (BillTime_Id)
-,KEY idx_Createdate_Id (Createdate_Id)
+,PRIMARY KEY (ProcessId)
+,UNIQUE KEY uniq_order (OrderId,BranchId)
+,KEY idx_BranchId (BranchId)
+,KEY idx_OrderId (OrderId)
+,KEY idx_CustomerId (CustomerId)
+,KEY idx_OrderTypeId (OrderTypeId)
+,KEY idx_OnlinerefId (OnlinerefId)
+,KEY idx_FloorId (FloorId)
+,KEY idx_TableId (TableId)
+,KEY idx_Department_Id (DepartmentId)
+,KEY idx_MenuId (MenuId)
+,KEY idx_CaptainId (CaptainId)
+,KEY idx_WaiterId (WaiterId)
+,KEY idx_OrderStatusId (OrderStatusId)
+,KEY idx_DiscountTypeId (DiscountTypeId)
+,KEY idx_ComplimentaryStatus_Id (ComplimentaryStatusId)
+,KEY idx_SplitTypeId (SplitTypeId)
+,KEY idx_PaymodeId (PaymodeId)
+,KEY idx_CardTypeId (CardTypeId)
+,KEY idx_BillTimeId (BillTimeId)
+,KEY idx_CreatedateId (CreatedateId)
 ,KEY idx_CreateDate (CreateDate)
 );
 
 DROP TABLE IF EXISTS dim_ordertype;
 CREATE TABLE IF NOT EXISTS dim_ordertype (
 Id INT(11) NOT NULL AUTO_INCREMENT
-,OrderType_code varchar(3) DEFAULT NULL
-,OrderType_Desc varchar(20) DEFAULT NULL
+,OrderTypeCode varchar(3) DEFAULT NULL
+,OrderTypeDesc varchar(20) DEFAULT NULL
 ,PRIMARY KEY (Id)
-,UNIQUE KEY uniq_branch (OrderType_code)
+,UNIQUE KEY uniq_branch (OrderTypeCode)
 );
 
 DROP TABLE IF EXISTS dim_branch;
 CREATE TABLE IF NOT EXISTS dim_branch (
 Id INT(11) NOT NULL AUTO_INCREMENT
-,RestID int(11) NOT NULL
-,BranchID varchar(11) NOT NULL
-,BranchName  varchar(30) NOT NULL
+,RestCode int(11) NOT NULL DEFAULT 0 COMMENT 'RestId from source branch master table'
+,BranchCode varchar(11) NOT NULL DEFAULT '' COMMENT 'BranchId from source branch master table'
+,BranchName  varchar(30) NOT NULL DEFAULT ''
 ,CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-,Location_Id INT(11) NOT NULL DEFAULT 0
+,LocationId INT(11) NOT NULL DEFAULT 0
 ,PRIMARY KEY (Id)
-,UNIQUE KEY uniq_branch (RestID,BranchID)
-,KEY idx_RestID (RestID)
-,KEY idx_BranchID (BranchID)
+,UNIQUE KEY uniq_branch (RestCode,BranchCode)
 );
 
 DROP TABLE IF EXISTS dim_combotype;
 CREATE TABLE dim_combotype (
 Id INT(11) NOT NULL AUTO_INCREMENT
-,comboCode char(1) NOT NULL 
+,ComboCode char(1) NOT NULL 
 ,ComboDesc varchar(10) NOT NULL 
 ,PRIMARY KEY (Id)
 ,UNIQUE KEY uniq_combo (comboCode)
 );
-INSERT INTO dim_combotype (comboCode,ComboDesc) VALUES 
+INSERT INTO dim_combotype (ComboCode,ComboDesc) VALUES 
 ('S','Single'),('M','Multiple'),('F','Modifier');
 
 
 DROP TABLE IF EXISTS dim_department;
 CREATE TABLE IF NOT EXISTS dim_department (
 Id INT(11) NOT NULL AUTO_INCREMENT
-,Branch_Id INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
+,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
 ,DeptID int(11) NOT NULL
 ,DeptName varchar(100) COLLATE utf8_bin NOT NULL
 ,NoofItems int(11) NOT NULL
@@ -107,17 +112,15 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,CreatedDate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ,Createdby int(11) DEFAULT NULL
 ,PRIMARY KEY (Id)
-,UNIQUE KEY uniq_department (Branch_Id,DeptID)
-,KEY idx_Branch_Id (Branch_Id)
-,KEY idx_DeptID (DeptID)
+,UNIQUE KEY uniq_department (BranchId,DeptID)
 );
 
 DROP TABLE IF EXISTS dim_menuitem;
 CREATE TABLE IF NOT EXISTS dim_menuitem (
 Id INT(11) NOT NULL AUTO_INCREMENT
-,Branch_Id INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
+,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
 ,MenuId VARCHAR(15) CHARACTER SET latin1 NOT NULL
-,Code VARCHAR(30) CHARACTER SET latin1 DEFAULT NULL
+,MenuCode VARCHAR(30) CHARACTER SET latin1 DEFAULT NULL
 ,Name VARCHAR(255) CHARACTER SET latin1 DEFAULT NULL
 ,Price decimal(6,2) NOT NULL DEFAULT '0.00'
 ,AcPrice decimal(6,2) DEFAULT '0.00'
@@ -129,14 +132,14 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,ItemHide VARCHAR(10) CHARACTER SET latin1 DEFAULT 'Actie' 
 ,DisplayOrder INT(2) DEFAULT NULL
 ,DeptPrint CHAR(1) CHARACTER SET latin1 DEFAULT 'N'
-,Dept_ID INT(11) DEFAULT '0' COMMENT 'Id of Dim_Department table'
+,DepartmentID INT(11) DEFAULT '0' COMMENT 'Id of Dim_Department table'
 ,RewardPoints decimal(10,2) DEFAULT '0.00'
 ,LockType CHAR(10) CHARACTER SET latin1 DEFAULT 'Temporary' 
 ,ItemType CHAR(10) CHARACTER SET latin1 DEFAULT NULL
 ,CreatedDate_Id INT(11) NOT NULL DEFAULT 0
 ,CreatedDate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
 ,LastUpdated TIMESTAMP NULL DEFAULT '0000-00-00 00:00:00'
-,ComboType_Id INT(4) NOT NULL DEFAULT 0 COMMENT 'Id of combotype dim table'
+,ComboTypeId INT(4) NOT NULL DEFAULT 0 COMMENT 'Id of combotype dim table'
 ,DineInTax int(11) NOT NULL DEFAULT '0'
 ,TAwayTax int(11) NOT NULL DEFAULT '0'
 ,DelivTax int(11) NOT NULL DEFAULT '0'
@@ -151,20 +154,141 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,HappyPrice decimal(10,2) DEFAULT '0.00'
 ,HappyAcPrice decimal(10,2) DEFAULT '0.00'
 ,PRIMARY KEY (Id)
-,UNIQUE KEY uniq_menu (Branch_Id,MenuId)
-,KEY idx_Branch_Id (Branch_Id)
-,KEY idx_MenuId (MenuId)
-,KEY idx_ComboType_Id (ComboType_Id)
+,UNIQUE KEY uniq_menu (BranchId,MenuId)
+,KEY idx_ComboTypeId (ComboTypeId)
 );
 
 DROP TABLE IF EXISTS dim_waiter;
 CREATE TABLE IF NOT EXISTS dim_waiter (
 Id INT(11) NOT NULL AUTO_INCREMENT
-,Branch_Id INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
+,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
 ,EmpCode varchar(30) NOT NULL
 ,WaiterName varchar(30) DEFAULT NULL
-,Status char(1) DEFAULT NULL COMMENT 'E- Employee,C- Captain, W- Waiter'
+,EmpType char(1) DEFAULT NULL COMMENT 'E- Employee,C- Captain, W- Waiter'
 ,EmpStatus char(1) DEFAULT 'A'
 ,PRIMARY KEY (Id)
-,UNIQUE KEY uniq_branch (Branch_Id,EmpCode)
+,UNIQUE KEY uniq_waiter (BranchId,EmpCode)
 );
+
+DROP TABLE IF EXISTS dim_customer;
+CREATE TABLE IF NOT EXISTS dim_customer (
+Id INT(11) NOT NULL AUTO_INCREMENT
+,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
+,CustMobile	VARCHAR(15)	NOT NULL DEFAULT ''
+,RedeemPoINTs	INT(11)	NOT NULL DEFAULT 0
+,CustomerName	VARCHAR(200) NOT NULL DEFAULT ''
+,CustomerAddr	TEXT	
+,CustomerPhone	VARCHAR(15)	NOT NULL DEFAULT ''
+,CustomerEmail	VARCHAR(60)	NOT NULL DEFAULT ''
+,LandMark	VARCHAR(255) NOT NULL DEFAULT ''	
+,Type	CHAR(1)	NOT NULL DEFAULT 'C'
+,Area	VARCHAR(30)	 NOT NULL DEFAULT ''
+,CreateDate	TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP		
+,DOB	VARCHAR(15)	NOT NULL DEFAULT ''
+,MarriageDate	VARCHAR(11)	NOT NULL DEFAULT ''
+,MarriageStatus	CHAR(1)	NOT NULL DEFAULT ''
+,RecAmount	DECIMAL(10,2) NOT NULL DEFAULT '0.00'
+,UpdatedDate	TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00'
+,CustVisitCnt	INT(11)	NOT NULL DEFAULT '0'
+,CustomerID	INT(11)	NOT NULL DEFAULT 0
+,PayStatus	CHAR(1) NOT NULL DEFAULT 'A'	
+,PRIMARY KEY (Id)
+,UNIQUE KEY uniq_customer (BranchId,CustMobile)
+);
+
+DROP TABLE IF EXISTS dim_paymode;
+CREATE TABLE IF NOT EXISTS dim_paymode (
+Id INT(11) NOT NULL AUTO_INCREMENT
+,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
+,PayMstrID	INT(11)	NOT NULL DEFAULT 0
+,PaymodeID	INT(10)	NOT NULL DEFAULT 0
+,Descr	VARCHAR(100) NOT NULL DEFAULT ''
+,Status	VARCHAR(2) NOT NULL DEFAULT 'N'
+,PRIMARY KEY (Id)
+,UNIQUE KEY uniq_paymode (BranchId,PaymodeID)
+);
+
+DROP TABLE IF EXISTS dim_orderstatus;
+CREATE TABLE IF NOT EXISTS dim_orderstatus (
+Id INT(11) NOT NULL AUTO_INCREMENT
+,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
+,OrderstatusCode  VARCHAR(2) NOT NULL DEFAULT ''
+,OrderStatus VARCHAR(30) NOT NULL DEFAULT ''
+,StatusType CHAR(1) NOT NULL DEFAULT '' COMMENT 'U - USER, A - ADMIN, B - BOTH'
+,PRIMARY KEY (Id)
+,UNIQUE KEY uniq_orderstatus (BranchId,OrderstatusCode)
+);
+
+DROP TABLE IF EXISTS dim_cardtype;
+CREATE TABLE IF NOT EXISTS dim_cardtype (
+Id INT(3) NOT NULL AUTO_INCREMENT
+,CardID int(3)  NOT NULL DEFAULT 0
+,Descr varchar(100)  COLLATE utf8_bin NOT NULL DEFAULT ''
+,Status char(10) COLLATE utf8_bin DEFAULT 'Active' 
+,PRIMARY KEY (Id)
+,UNIQUE KEY uniq_cartype (CardID)
+ );
+ 
+DROP TABLE IF EXISTS dim_onlinereferal;
+CREATE TABLE IF NOT EXISTS dim_onlinereferal (
+Id INT(11) NOT NULL AUTO_INCREMENT
+,OnlinerefId INT(11) NOT NULL DEFAULT 0
+,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
+,Descr VARCHAR(100) NOT NULL DEFAULT ''
+,Status  VARCHAR(10) NOT NULL DEFAULT 'A'
+,Commission DECIMAL(10,2) NOT NULL DEFAULT '0.00'
+,AutoSettle CHAR(1) NOT NULL DEFAULT 'N'
+,PRIMARY KEY (Id)
+,UNIQUE KEY uniq_onlinereferal (BranchId,OnlinerefId)
+);
+
+
+DROP TABLE IF EXISTS dim_tablefloor;
+CREATE TABLE IF NOT EXISTS dim_tablefloor (
+Id INT(11) NOT NULL AUTO_INCREMENT
+,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
+,TblFloorID INT(11) NOT NULL DEFAULT 0
+,TypeId SMALLINT(2) NOT NULL DEFAULT 0
+,Descr VARCHAR(300) NOT NULL  DEFAULT ''
+,Status VARCHAR(10) DEFAULT 'Active'
+,AcFloor CHAR(1) NOT NULL DEFAULT 'N'
+,PRIMARY KEY (Id)
+,UNIQUE KEY uniq_tablefloor (BranchId,TblFloorID)
+ );
+ 
+ DROP TABLE IF EXISTS dim_tableno;
+CREATE TABLE IF NOT EXISTS dim_tableno (
+Id INT(11) NOT NULL AUTO_INCREMENT
+,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
+,TableNo VARCHAR(6) NOT NULL DEFAULT ''
+,DisplayOrder INT(5) NOT NULL DEFAULT 0
+,Status CHAR(1) NOT NULL DEFAULT 'A'
+,Floor INT(2) NOT NULL DEFAULT 0
+,ACtable CHAR(1) NOT NULL DEFAULT 'N'
+,PRIMARY KEY (Id)
+,UNIQUE KEY uniq_tableno (BranchId,TableNo)
+ );
+
+DROP TABLE IF EXISTS dim_complimentary;
+CREATE TABLE IF NOT EXISTS dim_complimentary (
+Id INT(11) NOT NULL AUTO_INCREMENT
+,Status CHAR(1) NOT NULL DEFAULT 'N'
+,Descr CHAR(4) NOT NULL DEFAULT 'No'
+,PRIMARY KEY (Id)
+ );
+ 
+ DROP TABLE IF EXISTS dim_discounttype;
+CREATE TABLE IF NOT EXISTS dim_discounttype (
+Id INT(11) NOT NULL AUTO_INCREMENT
+,DiscType CHAR(1) NOT NULL DEFAULT ''
+,Descr VARCHAR(10) NOT NULL DEFAULT ''
+,PRIMARY KEY (Id)
+ );
+ 
+ DROP TABLE IF EXISTS dim_splittype;
+CREATE TABLE IF NOT EXISTS dim_splittype (
+Id INT(11) NOT NULL AUTO_INCREMENT
+,SplitType CHAR(1) NOT NULL DEFAULT ''
+,Descr VARCHAR(10) NOT NULL DEFAULT ''
+,PRIMARY KEY (Id)
+ );

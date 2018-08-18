@@ -83,11 +83,11 @@ menumaster - sr_menumstr_tbl  -- done
 departmaster - sr_department_mstr  --done
 admins - sr_admins_tbl
 branchestbl - sr_branches_tbl  --done
-branchtypetbl - sr_branchtype_tbl
-waitername - sr_waiter_name_tbl
-paymodemstr - sr_paymode_mstr
-cardmstr - sr_cardmstr_tbl
-onlinerefermast - sr_onlinereferal_mstr
+branchtypetbl - sr_branchtype_tbl --done
+waitername - sr_waiter_name_tbl-- done
+paymodemstr - sr_paymode_mstr  -- done
+cardmstr - sr_cardmstr_tbl --done 
+onlinerefermast - sr_onlinereferal_mstr --done
 
 --Business Rule for branch dim table: 
 BranchType - COMMENT 'Branch order options ( B - Both Delivery & Pickup, D - Delivery only , P - Pickup'
@@ -100,13 +100,33 @@ ItemStatus VARCHAR(1) CHARACTER SET latin1 NOT NULL DEFAULT 'A' COMMENT 'A - act
 ItemHide VARCHAR(1) CHARACTER SET latin1 DEFAULT 'A' COMMENT 'A - active, I - Inactive',
 LockType CHAR(1) CHARACTER SET latin1 DEFAULT 'T' COMMENT 'T - Temporary, P -Permanent',
 ItemType CHAR(1) CHARACTER SET latin1 DEFAULT NULL COMMENT 'V-Veg,N- Non VEG',
-MenuType char(1) CHARACTER SET latin1 DEFAULT 'L'
+MenuType CHAR(1) CHARACTER SET latin1 DEFAULT 'L'
+
+Business  rule dim_Cardrype
+Status char(5) COLLATE utf8_bin DEFAULT 'A' COMMENT 'A - Active , I - Inactive',
+
+DROP TABLE IF EXISTS dim_cardtype;
+CREATE TABLE IF NOT EXISTS dim_cardtype (
+Id INT(3) NOT NULL AUTO_INCREMENT
+,CardID int(3)  NOT NULL DEFAULT 0
+,Descr varchar(100)  COLLATE utf8_bin NOT NULL DEFAULT ''
+,Status char(10) COLLATE utf8_bin DEFAULT 'Active' 
+,PRIMARY KEY (Id)
+,UNIQUE KEY uniq_cartype (CardID)
+ ) 
 
 
 
-
-
-
-
-
-
+DROP TABLE IF EXISTS dim_splittype;
+CREATE TABLE IF NOT EXISTS dim_splittype (
+Id INT(11) NOT NULL AUTO_INCREMENT
+,SplitType CHAR(1) NOT NULL DEFAULT ''
+,Descr VARCHAR(10) NOT NULL DEFAULT ''
+,PRIMARY KEY (Id)
+ );
+ 
+ 
+Before Lunch 
+Need to build Datawarehouse for sales
+Need to design ETL for sales
+Verify and validate data
