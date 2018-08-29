@@ -13,6 +13,10 @@ WHERE billtype="B" AND billedstatus="Y" AND a.billdate BETWEEN "2018-06-20" AND 
 ORDER BY a.restid, a.branchID, a.billdate, a.orderid ;
 
 
+Department Id required
+Discount
+complimentary
+
 --### Master Information 
 
 menumaster - sr_menumstr_tbl
@@ -105,28 +109,38 @@ MenuType CHAR(1) CHARACTER SET latin1 DEFAULT 'L'
 Business  rule dim_Cardrype
 Status char(5) COLLATE utf8_bin DEFAULT 'A' COMMENT 'A - Active , I - Inactive',
 
-DROP TABLE IF EXISTS dim_cardtype;
-CREATE TABLE IF NOT EXISTS dim_cardtype (
-Id INT(3) NOT NULL AUTO_INCREMENT
-,CardID int(3)  NOT NULL DEFAULT 0
-,Descr varchar(100)  COLLATE utf8_bin NOT NULL DEFAULT ''
-,Status char(10) COLLATE utf8_bin DEFAULT 'Active' 
-,PRIMARY KEY (Id)
-,UNIQUE KEY uniq_cartype (CardID)
- ) 
+-- #######
+-- Dim Load Order 
+1.Branch 
+2.Department 
+3.Combotype
+4.Ordertype
+5.CardType
+6.Complimentary
+7.Customer
+8.DiscountType
+9.Splittype
+10.Menuitem
+11.Waiter
+12.Onlinereferal
+13.Tablefloor
+14.Tableno
+15.Orderstatus
+16.Paymode
+
+PAYMODE
+MenuItem 
+Has the filter rows for Branch
 
 
+Build.sql
+DB Dumb
+Cube XML
 
-DROP TABLE IF EXISTS dim_splittype;
-CREATE TABLE IF NOT EXISTS dim_splittype (
-Id INT(11) NOT NULL AUTO_INCREMENT
-,SplitType CHAR(1) NOT NULL DEFAULT ''
-,Descr VARCHAR(10) NOT NULL DEFAULT ''
-,PRIMARY KEY (Id)
- );
- 
- 
-Before Lunch 
-Need to build Datawarehouse for sales
-Need to design ETL for sales
-Verify and validate data
+
+Error Handling
+CDC logic
+
+
+INSERT INTO dim_combotype (ComboCode,ComboDesc) VALUES 
+('S','Single'),('M','Multiple'),('F','Modifier');

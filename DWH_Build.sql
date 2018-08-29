@@ -1,14 +1,14 @@
--- #### Dropping Existing Database If its available in the foodengine_dwh name
+-- #### -- DROPping Existing Database If its available in the foodengine_dwh name
 -- #### This script to be used for new customer environmental set-up 
 -- #### By Running this script, we will lose all existing data
 
 
-DROP DATABASE IF EXISTS foodengine_dwh ;
+-- DROP DATABASE IF EXISTS foodengine_dwh ;
 CREATE DATABASE IF NOT EXISTS foodengine_dwh;
 
 USE foodengine_dwh;
 
-DROP TABLE IF EXISTS fact_orderdetail;
+-- DROP TABLE IF EXISTS fact_orderdetail;
 CREATE TABLE IF NOT EXISTS fact_orderdetail(
 ProcessId INT(11)	NOT NULL AUTO_INCREMENT 
 ,ProcessDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP 
@@ -30,8 +30,8 @@ ProcessId INT(11)	NOT NULL AUTO_INCREMENT
 ,SplitTypeId  SMALLINT(1) DEFAULT 0 COMMENT 'Id of dim_splittype table'
 ,PaymodeId	INT(11)	NOT NULL 	DEFAULT 	0  COMMENT 'Id of dim_paymode table' 
 ,CardTypeId	INT(11)	NOT NULL 	DEFAULT 	0 COMMENT 'Id of dim_cardtype table'
-,BillTimeId	INT(11)	NOT NULL 	DEFAULT 	0
-,CreateDateId	INT(11)	NOT NULL 	DEFAULT 	0
+,BillTimeId	INT(11)	NOT NULL 	DEFAULT 	0 COMMENT 'Id of dim_time table'
+,CreateDateId	INT(11)	NOT NULL 	DEFAULT 	0 COMMENT 'Id of dim_date table'
 ,CreateDate	TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00'		
 ,NoOfPpl INT(11) NOT NULL DEFAULT 0
 ,Itemprice DECIMAL(10,2) DEFAULT '0.00'
@@ -45,7 +45,7 @@ ProcessId INT(11)	NOT NULL AUTO_INCREMENT
 ,TaxAmount DECIMAL(10,2) DEFAULT '0.00'
 ,SalesAmount DECIMAL(10,2) DEFAULT '0.00'
 ,PRIMARY KEY (ProcessId)
-,UNIQUE KEY uniq_order (OrderId,BranchId)
+,UNIQUE KEY uniq_order (OrderId,OrderSummaryId,BranchId)
 ,KEY idx_BranchId (BranchId)
 ,KEY idx_OrderId (OrderId)
 ,KEY idx_CustomerId (CustomerId)
@@ -68,16 +68,16 @@ ProcessId INT(11)	NOT NULL AUTO_INCREMENT
 ,KEY idx_CreateDate (CreateDate)
 );
 
-DROP TABLE IF EXISTS dim_ordertype;
+-- DROP TABLE IF EXISTS dim_ordertype;
 CREATE TABLE IF NOT EXISTS dim_ordertype (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,OrderTypeCode varchar(3) DEFAULT NULL
 ,OrderTypeDesc varchar(20) DEFAULT NULL
 ,PRIMARY KEY (Id)
-,UNIQUE KEY uniq_branch (OrderTypeCode)
+,UNIQUE KEY uniq_ordertype (OrderTypeCode)
 );
 
-DROP TABLE IF EXISTS dim_branch;
+-- DROP TABLE IF EXISTS dim_branch;
 CREATE TABLE IF NOT EXISTS dim_branch (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,RestCode int(11) NOT NULL DEFAULT 0 COMMENT 'RestId from source branch master table'
@@ -89,19 +89,18 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,UNIQUE KEY uniq_branch (RestCode,BranchCode)
 );
 
-DROP TABLE IF EXISTS dim_combotype;
-CREATE TABLE dim_combotype (
+-- DROP TABLE IF EXISTS dim_combotype;
+CREATE TABLE IF NOT EXISTS dim_combotype (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,ComboCode char(1) NOT NULL 
 ,ComboDesc varchar(10) NOT NULL 
 ,PRIMARY KEY (Id)
 ,UNIQUE KEY uniq_combo (comboCode)
 );
-INSERT INTO dim_combotype (ComboCode,ComboDesc) VALUES 
-('S','Single'),('M','Multiple'),('F','Modifier');
 
 
-DROP TABLE IF EXISTS dim_department;
+
+-- DROP TABLE IF EXISTS dim_department;
 CREATE TABLE IF NOT EXISTS dim_department (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
@@ -115,7 +114,7 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,UNIQUE KEY uniq_department (BranchId,DeptID)
 );
 
-DROP TABLE IF EXISTS dim_menuitem;
+-- DROP TABLE IF EXISTS dim_menuitem;
 CREATE TABLE IF NOT EXISTS dim_menuitem (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
@@ -136,7 +135,7 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,RewardPoints decimal(10,2) DEFAULT '0.00'
 ,LockType CHAR(10) CHARACTER SET latin1 DEFAULT 'Temporary' 
 ,ItemType CHAR(10) CHARACTER SET latin1 DEFAULT NULL
-,CreatedDate_Id INT(11) NOT NULL DEFAULT 0
+,CreatedDateId INT(11) NOT NULL DEFAULT 0
 ,CreatedDate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
 ,LastUpdated TIMESTAMP NULL DEFAULT '0000-00-00 00:00:00'
 ,ComboTypeId INT(4) NOT NULL DEFAULT 0 COMMENT 'Id of combotype dim table'
@@ -158,7 +157,7 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,KEY idx_ComboTypeId (ComboTypeId)
 );
 
-DROP TABLE IF EXISTS dim_waiter;
+-- DROP TABLE IF EXISTS dim_waiter;
 CREATE TABLE IF NOT EXISTS dim_waiter (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
@@ -170,12 +169,12 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,UNIQUE KEY uniq_waiter (BranchId,EmpCode)
 );
 
-DROP TABLE IF EXISTS dim_customer;
+-- DROP TABLE IF EXISTS dim_customer;
 CREATE TABLE IF NOT EXISTS dim_customer (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
-,CustMobile	VARCHAR(15)	NOT NULL DEFAULT ''
-,RedeemPoINTs	INT(11)	NOT NULL DEFAULT 0
+,CustMobile	VARCHAR(15)	COLLATE utf8_bin NOT NULL DEFAULT ''
+,RedeemPoints	INT(11)	NOT NULL DEFAULT 0
 ,CustomerName	VARCHAR(200) NOT NULL DEFAULT ''
 ,CustomerAddr	TEXT	
 ,CustomerPhone	VARCHAR(15)	NOT NULL DEFAULT ''
@@ -186,17 +185,17 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,CreateDate	TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP		
 ,DOB	VARCHAR(15)	NOT NULL DEFAULT ''
 ,MarriageDate	VARCHAR(11)	NOT NULL DEFAULT ''
-,MarriageStatus	CHAR(1)	NOT NULL DEFAULT ''
+,MarriageStatus	CHAR(2)	NOT NULL DEFAULT ''
 ,RecAmount	DECIMAL(10,2) NOT NULL DEFAULT '0.00'
 ,UpdatedDate	TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00'
 ,CustVisitCnt	INT(11)	NOT NULL DEFAULT '0'
 ,CustomerID	INT(11)	NOT NULL DEFAULT 0
 ,PayStatus	CHAR(1) NOT NULL DEFAULT 'A'	
 ,PRIMARY KEY (Id)
-,UNIQUE KEY uniq_customer (BranchId,CustMobile)
+,UNIQUE KEY uniq_customer (BranchId,CustMobile,Type)
 );
 
-DROP TABLE IF EXISTS dim_paymode;
+-- DROP TABLE IF EXISTS dim_paymode;
 CREATE TABLE IF NOT EXISTS dim_paymode (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
@@ -208,7 +207,7 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,UNIQUE KEY uniq_paymode (BranchId,PaymodeID)
 );
 
-DROP TABLE IF EXISTS dim_orderstatus;
+-- DROP TABLE IF EXISTS dim_orderstatus;
 CREATE TABLE IF NOT EXISTS dim_orderstatus (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
@@ -219,7 +218,7 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,UNIQUE KEY uniq_orderstatus (BranchId,OrderstatusCode)
 );
 
-DROP TABLE IF EXISTS dim_cardtype;
+-- DROP TABLE IF EXISTS dim_cardtype;
 CREATE TABLE IF NOT EXISTS dim_cardtype (
 Id INT(3) NOT NULL AUTO_INCREMENT
 ,CardID int(3)  NOT NULL DEFAULT 0
@@ -229,7 +228,7 @@ Id INT(3) NOT NULL AUTO_INCREMENT
 ,UNIQUE KEY uniq_cartype (CardID)
  );
  
-DROP TABLE IF EXISTS dim_onlinereferal;
+-- DROP TABLE IF EXISTS dim_onlinereferal;
 CREATE TABLE IF NOT EXISTS dim_onlinereferal (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,OnlinerefId INT(11) NOT NULL DEFAULT 0
@@ -243,7 +242,7 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 );
 
 
-DROP TABLE IF EXISTS dim_tablefloor;
+-- DROP TABLE IF EXISTS dim_tablefloor;
 CREATE TABLE IF NOT EXISTS dim_tablefloor (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
@@ -256,7 +255,7 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,UNIQUE KEY uniq_tablefloor (BranchId,TblFloorID)
  );
  
- DROP TABLE IF EXISTS dim_tableno;
+ -- DROP TABLE IF EXISTS dim_tableno;
 CREATE TABLE IF NOT EXISTS dim_tableno (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,BranchId INT(11) NOT NULL DEFAULT 0 COMMENT 'Id of Dim_Branch table'
@@ -269,7 +268,7 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,UNIQUE KEY uniq_tableno (BranchId,TableNo)
  );
 
-DROP TABLE IF EXISTS dim_complimentary;
+-- DROP TABLE IF EXISTS dim_complimentary;
 CREATE TABLE IF NOT EXISTS dim_complimentary (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,Status CHAR(1) NOT NULL DEFAULT 'N'
@@ -277,7 +276,7 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,PRIMARY KEY (Id)
  );
  
- DROP TABLE IF EXISTS dim_discounttype;
+-- DROP TABLE IF EXISTS dim_discounttype;
 CREATE TABLE IF NOT EXISTS dim_discounttype (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,DiscType CHAR(1) NOT NULL DEFAULT ''
@@ -285,10 +284,48 @@ Id INT(11) NOT NULL AUTO_INCREMENT
 ,PRIMARY KEY (Id)
  );
  
- DROP TABLE IF EXISTS dim_splittype;
+-- DROP TABLE IF EXISTS dim_splittype;
 CREATE TABLE IF NOT EXISTS dim_splittype (
 Id INT(11) NOT NULL AUTO_INCREMENT
 ,SplitType CHAR(1) NOT NULL DEFAULT ''
-,Descr VARCHAR(10) NOT NULL DEFAULT ''
+,Descr VARCHAR(20) NOT NULL DEFAULT ''
 ,PRIMARY KEY (Id)
  );
+ 
+-- DROP TABLE IF EXISTS dim_date;
+CREATE TABLE IF NOT EXISTS dim_date
+(
+ Id INT(11) NOT NULL AUTO_INCREMENT
+, DimensionDate DATE  NOT NULL DEFAULT '0000-00-00'
+, DateId BIGINT(11) NOT NULL DEFAULT 0
+, Year INT(11) NOT NULL DEFAULT 0
+, Quarter INT(11) NOT NULL DEFAULT 0
+, Month INT(11) NOT NULL DEFAULT 0
+, Day INT(11) NOT NULL DEFAULT 0
+, Weekday  INT(11) NOT NULL DEFAULT 0
+, MonthName VARCHAR(20) 
+, MonthAbbreviation VARCHAR(20) 
+, DayName VARCHAR(20) 
+, DayAbbreviation VARCHAR(20) 
+, YearInDimension INT(11) NOT NULL DEFAULT 0
+, QuartersInDimension INT(11) NOT NULL DEFAULT 0
+, MonthInDimension INT(11) NOT NULL DEFAULT 0
+, DayInYear INT(11) NOT NULL DEFAULT 0
+,PRIMARY KEY (Id)
+);
+
+-- DROP TABLE IF EXISTS dim_time;
+CREATE TABLE IF NOT EXISTS dim_time
+(
+Id INT(11) NOT NULL AUTO_INCREMENT
+, TimeId INT(11)  NOT NULL DEFAULT 0
+, Hour INT(11)  NOT NULL DEFAULT 0
+, Hour12 INT(11)  NOT NULL DEFAULT 0
+, Minute INT(11)  NOT NULL DEFAULT 0
+, Second INT(11)  NOT NULL DEFAULT 0
+, AMPM VARCHAR(8)
+, HMS VARCHAR(8)
+, HM VARCHAR(5)
+, HMS12 VARCHAR(20)
+,PRIMARY KEY (Id)
+);
