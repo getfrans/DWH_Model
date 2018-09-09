@@ -8,9 +8,6 @@
     <Dimension type="StandardDimension" visible="true" foreignKey="BranchId" highCardinality="false" name="Branch">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_branch">
-		<SQL dialect="generic">
-            <![CDATA[ dim_branch.Id %PLACE_HOLDER%]]>
-          </SQL>
         </Table>
         <Level name="Branch Name" visible="true" column="BranchName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
@@ -21,9 +18,6 @@
     <Dimension type="StandardDimension" visible="true" foreignKey="CustomerId" highCardinality="false" name="Customer">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_customer">
-		<SQL dialect="generic">
-            <![CDATA[ dim_customer.BranchId %PLACE_HOLDER%]]>
-          </SQL>
         </Table>
         <Level name="Customer Name" visible="true" column="CustomerName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
@@ -36,9 +30,6 @@
     <Dimension type="StandardDimension" visible="true" foreignKey="MenuId" highCardinality="false" name="Menu">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_menuitem">
-		<SQL dialect="generic">
-            <![CDATA[ dim_menuitem.BranchId %PLACE_HOLDER%]]>
-          </SQL>
         </Table>
         <Level name="Menu Name" visible="true" column="Name" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
@@ -77,9 +68,6 @@
     <Dimension type="StandardDimension" visible="true" foreignKey="OnlinerefId" highCardinality="false" name="Online Referral">
       <Hierarchy name="default" visible="true" hasAll="true">
         <Table name="dim_onlinereferal">
-		<SQL dialect="generic">
-            <![CDATA[ dim_onlinereferal.BranchId %PLACE_HOLDER%]]>
-          </SQL>
         </Table>
         <Level name="Online referral" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
@@ -90,9 +78,6 @@
     <Dimension type="StandardDimension" visible="true" foreignKey="FloorId" highCardinality="false" name="Floor">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_tablefloor">
-		<SQL dialect="generic">
-            <![CDATA[ dim_tablefloor.BranchId %PLACE_HOLDER%]]>
-          </SQL>
         </Table>
         <Level name="Floor Info" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
@@ -103,9 +88,6 @@
     <Dimension type="StandardDimension" visible="true" foreignKey="TableId" highCardinality="false" name="Table Info">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_tableno">
-		<SQL dialect="generic">
-            <![CDATA[ dim_tableno.BranchId %PLACE_HOLDER%]]>
-          </SQL>
         </Table>
         <Level name="Table No" visible="true" column="TableNo" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
@@ -116,9 +98,6 @@
     <Dimension type="StandardDimension" visible="true" foreignKey="DepartmentId" highCardinality="false" name="Department">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_department">
-		<SQL dialect="generic">
-            <![CDATA[ dim_department.BranchId %PLACE_HOLDER%]]>
-          </SQL>
         </Table>
         <Level name="Department Name" visible="true" column="DeptName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
@@ -131,9 +110,6 @@
     <Dimension type="StandardDimension" visible="true" foreignKey="CaptainId" highCardinality="false" name="Captain">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_captain">
-		<SQL dialect="generic">
-            <![CDATA[ dim_captain.BranchId %PLACE_HOLDER%]]>
-          </SQL>
         </Table>
         <Level name="Captain Name" visible="true" column="EmpName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
@@ -146,9 +122,6 @@
     <Dimension type="StandardDimension" visible="true" foreignKey="WaiterId" highCardinality="false" name="Waiter">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_waiter">
-		<SQL dialect="generic">
-            <![CDATA[ dim_waiter.BranchId %PLACE_HOLDER%]]>
-          </SQL>
         </Table>
         <Level name="Waiter Name" visible="true" column="UserName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
