@@ -9,7 +9,7 @@
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_branch">
 		<SQL dialect="generic">
-            <![CDATA[ dim_branch.BranchId %PLACE_HOLDER%]]>
+            <![CDATA[ dim_branch.Id %PLACE_HOLDER%]]>
           </SQL>
         </Table>
         <Level name="Branch Name" visible="true" column="BranchName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
