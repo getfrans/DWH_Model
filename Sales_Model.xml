@@ -1,10 +1,16 @@
 <Schema name="Foodengine">
   <Cube name="Sales" visible="true" cache="true" enabled="true">
     <Table name="fact_orderdetail">
+	<SQL dialect="generic">
+            <![CDATA[ fact_orderdetail.BranchId %PLACE_HOLDER%]]>
+          </SQL>
     </Table>
     <Dimension type="StandardDimension" visible="true" foreignKey="BranchId" highCardinality="false" name="Branch">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_branch">
+		<SQL dialect="generic">
+            <![CDATA[ dim_branch.BranchId %PLACE_HOLDER%]]>
+          </SQL>
         </Table>
         <Level name="Branch Name" visible="true" column="BranchName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
@@ -15,6 +21,9 @@
     <Dimension type="StandardDimension" visible="true" foreignKey="CustomerId" highCardinality="false" name="Customer">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_customer">
+		<SQL dialect="generic">
+            <![CDATA[ dim_customer.BranchId %PLACE_HOLDER%]]>
+          </SQL>
         </Table>
         <Level name="Customer Name" visible="true" column="CustomerName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
@@ -27,6 +36,9 @@
     <Dimension type="StandardDimension" visible="true" foreignKey="MenuId" highCardinality="false" name="Menu">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
         <Table name="dim_menuitem">
+		<SQL dialect="generic">
+            <![CDATA[ dim_menuitem.BranchId %PLACE_HOLDER%]]>
+          </SQL>
         </Table>
         <Level name="Menu Name" visible="true" column="Name" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
@@ -62,151 +74,177 @@
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="OnlinerefId" name="Online Referral">
+    <Dimension type="StandardDimension" visible="true" foreignKey="OnlinerefId" highCardinality="false" name="Online Referral">
       <Hierarchy name="default" visible="true" hasAll="true">
-        <Table name="dim_onlinereferal" alias="">
+        <Table name="dim_onlinereferal">
+		<SQL dialect="generic">
+            <![CDATA[ dim_onlinereferal.BranchId %PLACE_HOLDER%]]>
+          </SQL>
         </Table>
-        <Level name="Online referral" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Online referral" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Status" visible="true" column="Status" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Status" visible="true" column="Status" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="FloorId" name="Floor">
+    <Dimension type="StandardDimension" visible="true" foreignKey="FloorId" highCardinality="false" name="Floor">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
-        <Table name="dim_tablefloor" alias="">
+        <Table name="dim_tablefloor">
+		<SQL dialect="generic">
+            <![CDATA[ dim_tablefloor.BranchId %PLACE_HOLDER%]]>
+          </SQL>
         </Table>
-        <Level name="Floor Info" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Floor Info" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Status" visible="true" column="AcFloor" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Status" visible="true" column="AcFloor" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="TableId" name="Table Info">
+    <Dimension type="StandardDimension" visible="true" foreignKey="TableId" highCardinality="false" name="Table Info">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
-        <Table name="dim_tableno" alias="">
+        <Table name="dim_tableno">
+		<SQL dialect="generic">
+            <![CDATA[ dim_tableno.BranchId %PLACE_HOLDER%]]>
+          </SQL>
         </Table>
-        <Level name="Table No" visible="true" column="TableNo" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Table No" visible="true" column="TableNo" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Ac Table" visible="true" column="ACtable" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Ac Table" visible="true" column="ACtable" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="DepartmentId" name="Department">
+    <Dimension type="StandardDimension" visible="true" foreignKey="DepartmentId" highCardinality="false" name="Department">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
-        <Table name="dim_department" alias="">
+        <Table name="dim_department">
+		<SQL dialect="generic">
+            <![CDATA[ dim_department.BranchId %PLACE_HOLDER%]]>
+          </SQL>
         </Table>
-        <Level name="Department Name" visible="true" column="DeptName" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Department Name" visible="true" column="DeptName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="KOT Title" visible="true" column="KotTitle" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="KOT Title" visible="true" column="KotTitle" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="No Of Items" visible="true" column="NoofItems" type="Integer" uniqueMembers="false" levelType="Regular">
+        <Level name="No Of Items" visible="true" column="NoofItems" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="CaptainId" name="Captain">
+    <Dimension type="StandardDimension" visible="true" foreignKey="CaptainId" highCardinality="false" name="Captain">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
-        <Table name="dim_waiter" alias="">
+        <Table name="dim_captain">
+		<SQL dialect="generic">
+            <![CDATA[ dim_captain.BranchId %PLACE_HOLDER%]]>
+          </SQL>
         </Table>
-        <Level name="Captain Name" visible="true" column="WaiterName" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Captain Name" visible="true" column="EmpName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Status" visible="true" column="EmpStatus" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Status" visible="true" column="EmpStatus" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Type" visible="true" column="EmpType" type="String" uniqueMembers="false">
+        <Level name="Type" visible="true" column="EmpType" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="WaiterId" name="Waiter">
+    <Dimension type="StandardDimension" visible="true" foreignKey="WaiterId" highCardinality="false" name="Waiter">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
-        <Table name="dim_waiter" alias="">
+        <Table name="dim_waiter">
+		<SQL dialect="generic">
+            <![CDATA[ dim_waiter.BranchId %PLACE_HOLDER%]]>
+          </SQL>
         </Table>
-        <Level name="Waiter Name" visible="true" column="WaiterName" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Waiter Name" visible="true" column="UserName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Status" visible="true" column="EmpStatus" type="String" uniqueMembers="false" levelType="Regular">
-        </Level>
-        <Level name="Type" visible="true" column="EmpType" type="String" uniqueMembers="false">
+        <Level name="Type" visible="true" column="AdminType" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="OrderStatusId" name="Order Status">
+    <Dimension type="StandardDimension" visible="true" foreignKey="OrderStatusId" highCardinality="false" name="Order Status">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
-        <Table name="dim_orderstatus" alias="">
+        <Table name="dim_orderstatus">
         </Table>
-        <Level name="Order Status" visible="true" column="OrderStatus" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Order Status" visible="true" column="OrderStatus" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Status Type" visible="true" column="StatusType" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Status Type" visible="true" column="StatusType" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Order Status Code" visible="true" column="OrderstatusCode" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Order Status Code" visible="true" column="OrderstatusCode" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="DiscountTypeId" name="Discount Type">
+    <Dimension type="StandardDimension" visible="true" foreignKey="DiscountTypeId" highCardinality="false" name="Discount Type">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
-        <Table name="dim_discounttype" alias="">
+        <Table name="dim_discounttype">
         </Table>
-        <Level name="Discount Type" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Discount Type" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="ComplimentaryStatusId" name="Complimentary Status">
+    <Dimension type="StandardDimension" visible="true" foreignKey="ComplimentaryStatusId" highCardinality="false" name="Complimentary Status">
       <Hierarchy name="default" visible="true" hasAll="true">
-        <Table name="dim_complimentary" alias="">
+        <Table name="dim_complimentary">
         </Table>
-        <Level name="Complimentary Status" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Complimentary Status" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="SplitTypeId" name="Split Type">
+    <Dimension type="StandardDimension" visible="true" foreignKey="SplitTypeId" highCardinality="false" name="Split Type">
       <Hierarchy name="default" visible="true" hasAll="true">
         <Table name="dim_splittype">
         </Table>
-        <Level name="Split Type" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Split Type" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="PaymodeId" name="Paymode">
+    <Dimension type="StandardDimension" visible="true" foreignKey="PaymodeId" highCardinality="false" name="Paymode">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
-        <Table name="dim_paymode" alias="">
+        <Table name="dim_paymode">
         </Table>
-        <Level name="Paymode" visible="true" column="Descr" uniqueMembers="false">
+        <Level name="Paymode" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Status" visible="true" column="Status" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Status" visible="true" column="Status" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="CardTypeId" name="Card Type">
+    <Dimension type="StandardDimension" visible="true" foreignKey="CardTypeId" highCardinality="false" name="Card Type">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
-        <Table name="dim_cardtype" alias="">
+        <Table name="dim_cardtype">
         </Table>
-        <Level name="Card Type" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Card Type" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Status" visible="true" column="Status" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="Status" visible="true" column="Status" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="BillTimeId" name="Bill Time">
+	<Dimension type="StandardDimension" visible="true" foreignKey="BilltypeId" highCardinality="false" name="Bill Type">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
-        <Table name="dim_time" alias="">
+        <Table name="dim_billtype">
         </Table>
-        <Level name="Hour" visible="true" column="Hour" type="Integer" uniqueMembers="false" levelType="Regular">
+        <Level name="Bill Type" visible="true" column="Descr" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Minute" visible="true" column="Minute" type="Integer" uniqueMembers="false" levelType="Regular">
+        <Level name="BillType Code" visible="true" column="BillTypeCode" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="CreateDateId" name="Bill Date">
+	<Dimension type="StandardDimension" visible="true" foreignKey="BillTimeId" highCardinality="false" name="Bill Time">
       <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
-        <Table name="dim_date" alias="">
+        <Table name="dim_time">
         </Table>
-        <Level name="Bill Date" visible="true" column="DimensionDate" type="Date" uniqueMembers="false" levelType="Regular">
+        <Level name="Hour" visible="true" column="Hour" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Year" visible="true" column="Year" type="Integer" uniqueMembers="false" levelType="Regular">
+        <Level name="Minute" visible="true" column="Minute" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Month" visible="true" column="MonthAbbreviation" ordinalColumn="Month" type="String" uniqueMembers="false" levelType="Regular">
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="CreateDateId" highCardinality="false" name="Bill Date">
+      <Hierarchy name="default" visible="true" hasAll="true" primaryKey="Id">
+        <Table name="dim_date">
+        </Table>
+        <Level name="Bill Date" visible="true" column="DimensionDate" type="Date" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Day" visible="true" column="DayAbbreviation" ordinalColumn="Day" uniqueMembers="false">
+        <Level name="Year" visible="true" column="Year" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Quarter" visible="true" column="Quarter" type="Integer" uniqueMembers="false" levelType="Regular">
+        <Level name="Month" visible="true" column="MonthAbbreviation" ordinalColumn="Month" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="Day" visible="true" column="DayAbbreviation" ordinalColumn="Day" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="Quarter" visible="true" column="Quarter" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>

@@ -144,3 +144,20 @@ CDC logic
 
 INSERT INTO dim_combotype (ComboCode,ComboDesc) VALUES 
 ('S','Single'),('M','Multiple'),('F','Modifier');
+
+INSERT INTO dim_subscribeuser(RestCode) SELECT  DISTINCT RestId  FROM foodengine_ho.sr_branches_tbl;
+
+BIuserAccount
+insert into foodengine_dwh.dim_biuseraccount (LoginUserName,RestCode,BranchCode,BranchId) 
+select 'Admin' as LoginUserName,RestCode,BranchCode,Id from foodengine_dwh.dim_branch;
+
+
+Steps for Execution 
+
+1) Run DWH_Default_Setup.bat
+2) Run DWH_Subscriber_Entry.bat
+3) Run DWH_Initial_Load.bat
+
+
+DynamicSchemaProcessor
+com.mondriandsp.DynamicSchemaProcessor
