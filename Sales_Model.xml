@@ -70,7 +70,7 @@
         </Table>
         <Level name="Order type code" visible="true" column="OrderTypeCode" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="Order type" visible="true" column="OrderTypeDesc" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        <Level name="Order type" visible="true" column="OrderTypeDesc" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
